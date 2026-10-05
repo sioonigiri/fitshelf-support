@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fitshelf サポート</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --paper: #faf9f7;
+    --card: #ffffff;
+    --ink: #1b1d1f;
+    --ink-soft: #5b5f66;
+    --ink-faint: #8a8e94;
+    --accent: #33506b;
+    --accent-soft: #e8edf1;
+    --line: #e4e1db;
+    --shadow: 0 1px 2px rgba(20, 24, 28, 0.04), 0 8px 24px rgba(20, 24, 28, 0.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17191c;
+      --card: #1e2124;
+      --ink: #edeeef;
+      --ink-soft: #a7abb1;
+      --ink-faint: #75797f;
+      --accent: #8fb2cd;
+      --accent-soft: #26333d;
+      --line: #2c2f33;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #17191c;
+    --card: #1e2124;
+    --ink: #edeeef;
+    --ink-soft: #a7abb1;
+    --ink-faint: #75797f;
+    --accent: #8fb2cd;
+    --accent-soft: #26333d;
+    --line: #2c2f33;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+
+  .masthead {
+    margin-bottom: 40px;
+  }
+  .masthead .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .masthead h1 {
+    margin: 10px 0 8px;
+    font-size: clamp(26px, 4vw, 34px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-wrap: balance;
+  }
+  .masthead p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    max-width: 60ch;
+  }
+
+  nav.switcher {
+    position: sticky;
+    top: 16px;
+    z-index: 5;
+    display: flex;
+    gap: 8px;
+    padding: 6px;
+    margin: 28px 0 40px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    width: fit-content;
+  }
+  nav.switcher a {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  nav.switcher a:hover {
+    background: var(--accent-soft);
+    color: var(--ink);
+  }
+
+  article.doc {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 40px 40px 44px;
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+    scroll-margin-top: 84px;
+  }
+  @media (max-width: 640px) {
+    article.doc { padding: 28px 22px 32px; border-radius: 16px; }
+    .page { padding: 40px 16px 72px; }
+  }
+
+  .doc-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+  }
+  .doc-head h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .doc-head .meta {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lede {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin: 0 0 30px;
+  }
+
+  .toc {
+    background: var(--accent-soft);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 0 0 32px;
+  }
+  .toc p {
+    margin: 0 0 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+  }
+  .toc ol {
+    margin: 0;
+    padding-left: 1.3em;
+    columns: 2;
+    column-gap: 24px;
+  }
+  .toc li { break-inside: avoid; margin-bottom: 6px; }
+  .toc a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 13.5px;
+  }
+  .toc a:hover { text-decoration: underline; }
+  @media (max-width: 560px) {
+    .toc ol { columns: 1; }
+  }
+
+  section.clause {
+    padding: 22px 0;
+    border-top: 1px solid var(--line);
+    scroll-margin-top: 84px;
+  }
+  section.clause:first-of-type { border-top: none; padding-top: 0; }
+  section.clause h3 {
+    margin: 0 0 10px;
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  section.clause p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  section.clause p:last-child { margin-bottom: 0; }
+  section.clause ul {
+    margin: 10px 0;
+    padding-left: 1.4em;
+  }
+  section.clause li {
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+  section.clause a { color: var(--accent); }
+
+  .footline {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+
+  .faq dt { font-weight: 700; font-size: 15px; margin-top: 14px; }
+  .faq dt:first-child { margin-top: 0; }
+  .faq dd { margin: 4px 0 0; font-size: 15px; color: var(--ink-soft); }
+
+  nav.switcher a { white-space: nowrap; }
+  @media (max-width: 640px) {
+    nav.switcher { gap: 2px; padding: 4px; }
+    nav.switcher a { padding: 8px 12px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <div class="eyebrow">Fitshelf</div>
+    <h1>サポート</h1>
+    <p>お問い合わせ・よくある質問と、利用規約・プライバシーポリシー（アプリ内の設定画面と同じ内容）です。</p>
+  </header>
+
+  <nav class="switcher" aria-label="ドキュメント切り替え">
+    <a href="#support">サポート</a>
+    <a href="#terms">利用規約</a>
+    <a href="#privacy">プライバシーポリシー</a>
+  </nav>
+
+  <article class="doc" id="support">
+    <div class="doc-head">
+      <h2>サポート</h2>
+    </div>
+
+    <section class="clause" id="contact">
+      <h3>お問い合わせ</h3>
+      <p><a href="mailto:bread.morn1296@gmail.com">bread.morn1296@gmail.com</a></p>
+    </section>
+
+    <section class="clause" id="faq">
+      <h3>よくある質問</h3>
+      <dl class="faq">
+        <dt>アップロードは1日何回までですか？</dt>
+        <dd>1日10回までです。日付が変わると戻ります。</dd>
+        <dt>服は何着まで登録できますか？</dt>
+        <dd>トップス・ボトムス各10着までです。削除すると追加できます。</dd>
+        <dt>登録できない写真はありますか？</dt>
+        <dd>1枚に1着、服全体が正面から写った写真をご利用ください。複数の人や服、服が途中で切れている写真は登録できません。</dd>
+        <dt>写真はどこに保存されますか？</dt>
+        <dd>解析のため一時的にサーバーへ送りますが、サーバーには保存しません。登録した服は端末内にのみ保存されます。</dd>
+        <dt>データを消すには？</dt>
+        <dd>アイテム画面の「編集」から削除できます。アプリを削除すると、登録した服もすべて消えます。</dd>
+      </dl>
+    </section>
+  </article>
+
+  <article class="doc" id="terms">
+    <div class="doc-head">
+      <h2>利用規約</h2>
+      <div class="meta">全8条</div>
+    </div>
+    <p class="lede">本利用規約（以下「本規約」）は、Fitshelf（以下「本アプリ」）の利用条件を定めるものです。本アプリをご利用いただく前に、本規約をお読みください。本アプリを利用することにより、本規約に同意したものとみなします。</p>
+
+    <div class="toc">
+      <p>目次</p>
+      <ol>
+        <li><a href="#terms-1">第1条（本アプリの内容）</a></li>
+        <li><a href="#terms-2">第2条（アカウント登録）</a></li>
+        <li><a href="#terms-3">第3条（禁止事項）</a></li>
+        <li><a href="#terms-4">第4条（AIによる解析結果について）</a></li>
+        <li><a href="#terms-5">第5条（本アプリの提供の停止・変更）</a></li>
+        <li><a href="#terms-6">第6条（保証の否認および免責事項）</a></li>
+        <li><a href="#terms-7">第7条（利用規約の変更）</a></li>
+        <li><a href="#terms-8">第8条（準拠法・裁判管轄）</a></li>
+      </ol>
+    </div>
+
+    <section class="clause" id="terms-1">
+      <h3>第1条（本アプリの内容）</h3>
+      <p>本アプリは、ユーザーが撮影・選択した衣服の写真をAI（Google Gemini API）で解析し、衣服単体の画像として切り出してユーザーの端末内に保存する、個人用のデジタルクローゼット作成を目的としたアプリです。保存した衣服画像を組み合わせて、コーディネートのプレビューを作成する機能を提供します。</p>
+    </section>
+
+    <section class="clause" id="terms-2">
+      <h3>第2条（アカウント登録）</h3>
+      <p>本アプリはアカウント登録を必要とせず、氏名・メールアドレス等の個人情報の入力を求めません。</p>
+    </section>
+
+    <section class="clause" id="terms-3">
+      <h3>第3条（禁止事項）</h3>
+      <p>ユーザーは、本アプリの利用にあたり、以下の行為をしてはなりません。</p>
+      <ul>
+        <li>法令または公序良俗に違反する行為</li>
+        <li>本アプリの運営を妨害する行為（不正な大量アクセス等を含む）</li>
+        <li>本アプリを不正な目的で解析・改変・リバースエンジニアリングする行為</li>
+        <li>第三者になりすます行為、または他者の権利を侵害する画像を意図的にアップロードする行為</li>
+        <li>その他、当方が不適切と判断する行為</li>
+      </ul>
+    </section>
+
+    <section class="clause" id="terms-4">
+      <h3>第4条（AIによる解析結果について）</h3>
+      <p>本アプリの衣服検出・切り出し機能はAI（Google Gemini API）による自動処理であり、その結果の正確性を保証するものではありません。意図しない検出結果や切り出しが発生する場合があります。</p>
+    </section>
+
+    <section class="clause" id="terms-5">
+      <h3>第5条（本アプリの提供の停止・変更）</h3>
+      <p>当方は、以下のいずれかの事由があると判断した場合、ユーザーへの事前の通知なく、本アプリの全部または一部の提供を停止または中断することができるものとします。</p>
+      <ul>
+        <li>システムの保守点検または更新を行う場合</li>
+        <li>火災、停電、天災などの不可抗力により本アプリの提供が困難となった場合</li>
+        <li>Google Gemini API等、本アプリが依拠する外部サービスが利用できなくなった場合</li>
+        <li>その他、当方が停止または中断を必要と判断した場合</li>
+      </ul>
+    </section>
+
+    <section class="clause" id="terms-6">
+      <h3>第6条（保証の否認および免責事項）</h3>
+      <p>本アプリは現状有姿で提供され、その完全性、正確性、有用性等について、明示または黙示を問わず何ら保証するものではありません。当方は、本アプリに起因してユーザーに生じた損害について、一切の責任を負わないものとします。ただし、当方の故意または重過失による場合は、この限りではありません。</p>
+    </section>
+
+    <section class="clause" id="terms-7">
+      <h3>第7条（利用規約の変更）</h3>
+      <p>当方は、必要と判断した場合には、ユーザーへの事前の通知なく本規約を変更できるものとします。変更後の利用規約は、本アプリ内に掲載した時点から効力を生じるものとします。</p>
+    </section>
+
+    <section class="clause" id="terms-8">
+      <h3>第8条（準拠法・裁判管轄）</h3>
+      <p>本規約の解釈にあたっては、日本法を準拠法とします。本アプリに関して紛争が生じた場合には、当方所在地を管轄する裁判所を専属的合意管轄とします。</p>
+    </section>
+
+    <div class="footline">制定日：2026年9月17日</div>
+  </article>
+
+  <article class="doc" id="privacy">
+    <div class="doc-head">
+      <h2>プライバシーポリシー</h2>
+      <div class="meta">全7項</div>
+    </div>
+    <p class="lede">Fitshelf（以下「本アプリ」）は、ユーザーのプライバシーを尊重し、以下の方針に基づき個人情報・利用データを取り扱います。</p>
+
+    <div class="toc">
+      <p>目次</p>
+      <ol>
+        <li><a href="#privacy-1">1. 本アプリが収集する情報</a></li>
+        <li><a href="#privacy-2">2. 端末内にのみ保存する情報</a></li>
+        <li><a href="#privacy-3">3. 第三者への情報提供</a></li>
+        <li><a href="#privacy-4">4. 広告・アクセス解析</a></li>
+        <li><a href="#privacy-5">5. サーバーログについて</a></li>
+        <li><a href="#privacy-6">6. プライバシーポリシーの変更</a></li>
+        <li><a href="#privacy-7">7. お問い合わせ</a></li>
+      </ol>
+    </div>
+
+    <section class="clause" id="privacy-1">
+      <h3>1. 本アプリが収集する情報</h3>
+      <p>本アプリはアカウント登録を必要とせず、氏名・メールアドレス・電話番号等の個人を特定できる情報を収集しません。本アプリが取り扱う情報は以下のとおりです。</p>
+      <ul>
+        <li><strong>アップロードした衣服の写真</strong>：ユーザーが本アプリ内で選択した画像のみを取り扱います。写真は衣服の検出・切り出しのためにサーバーへ送信され、処理中は一時的に保持されますが、サーバー上に永続的に保存されることはなく、処理完了後は速やかに破棄されます。</li>
+        <li><strong>端末識別子</strong>：不正利用防止（1日あたりのアップロード回数制限）のため、端末ごとにランダムに生成した識別子（個人を特定できないもの）をサーバーへ送信します。この識別子は氏名・メールアドレス等とは一切紐付いていません。</li>
+      </ul>
+    </section>
+
+    <section class="clause" id="privacy-2">
+      <h3>2. 端末内にのみ保存する情報</h3>
+      <p>以下の情報は、ユーザーの端末内にのみ保存され、外部のサーバーへ送信・同期されることはありません。</p>
+      <ul>
+        <li>クローゼットに登録した衣服の画像・カテゴリ・名称・色などの情報</li>
+        <li>コーディネートの選択状態（一時的な画面表示のみで、保存はされません）</li>
+        <li>1日のアップロード回数と端末識別子の控え（アップロード回数の制限に使用します。アプリを削除しても端末内に残る場合があります）</li>
+      </ul>
+    </section>
+
+    <section class="clause" id="privacy-3">
+      <h3>3. 第三者への情報提供</h3>
+      <p>本アプリは、衣服の検出・切り出しのために、アップロードされた画像をGoogle社が提供するGemini API（AI画像解析サービス）へ送信します。送信された画像の取り扱いについては、Google社のプライバシーポリシーが適用されます。</p>
+      <p><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></p>
+      <p>本アプリは、上記以外の第三者に対して、ユーザーの情報を提供・販売することはありません。</p>
+    </section>
+
+    <section class="clause" id="privacy-4">
+      <h3>4. 広告・アクセス解析</h3>
+      <p>本アプリは、広告配信サービスや第三者のアクセス解析ツールを利用していません。</p>
+    </section>
+
+    <section class="clause" id="privacy-5">
+      <h3>5. サーバーログについて</h3>
+      <p>本アプリのバックエンドサーバーは、障害対応・不正利用防止の目的で、処理日時、処理の成否、検出された衣服のカテゴリ、エラー内容（発生した場合）など、検出処理に関する最小限の情報をログとして一時的に記録することがあります。画像そのものや氏名・メールアドレス等の個人を特定できる情報がログに含まれることはありません。</p>
+    </section>
+
+    <section class="clause" id="privacy-6">
+      <h3>6. プライバシーポリシーの変更</h3>
+      <p>本ポリシーの内容は、法令の変更その他の必要に応じて、事前の通知なく変更することがあります。変更後の内容は、本アプリ内に掲載した時点から効力を生じるものとします。</p>
+    </section>
+
+    <section class="clause" id="privacy-7">
+      <h3>7. お問い合わせ</h3>
+      <p>本ポリシーに関するお問い合わせは、以下の窓口までご連絡ください。</p>
+      <p><a href="mailto:bread.morn1296@gmail.com">bread.morn1296@gmail.com</a></p>
+    </section>
+
+    <div class="footline">制定日：2026年9月17日／最終改定日：2026年10月5日</div>
+  </article>
+</div>
+</body>
+</html>
